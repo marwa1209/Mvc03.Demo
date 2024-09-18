@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mvc03.Demo.BLL.Interfaces;
-using Mvc03.Demo.BLL.Repositories;
 
 namespace Mvc03.Demo.PL.Controllers
 {
