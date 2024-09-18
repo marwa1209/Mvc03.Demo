@@ -10,10 +10,16 @@ namespace Mvc03.Demo.PL.Controllers
         {
             _departmentRepository = DepartmentRepository;
         }
+        [HttpGet]
         public IActionResult Index()
         {
            var departments= _departmentRepository.GetAll();
             return View(departments);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }
