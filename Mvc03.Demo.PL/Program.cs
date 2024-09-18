@@ -1,3 +1,5 @@
+using Mvc.Demo.DAL.Data.Contexts;
+
 namespace Mvc03.Demo.PL
 {
     public class Program
@@ -8,7 +10,8 @@ namespace Mvc03.Demo.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            //  builder.Services.AddScoped<AppDBContext>(); //allow DI for AooDBContext
+            builder.Services.AddDbContext<AppDBContext>(); //scoped
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

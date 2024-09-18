@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Mvc.Demo.DAL.Data.Contexts
 {
-    internal class AppDBContext : DbContext
+    public class AppDBContext : DbContext
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

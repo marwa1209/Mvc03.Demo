@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc03.Demo.PL", "Mvc03.Demo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.Demo.DAL", "Mvc.Demo.DAL\Mvc.Demo.DAL.csproj", "{5A717FC7-CC14-4784-AD66-6AAD285298D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc03.Demo.PLL", "Mvc03.Demo.PLL\Mvc03.Demo.PLL.csproj", "{2C964C51-F1EC-42EA-A43F-0D123FAEB5D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc03.Demo.BLL", "Mvc03.Demo.PLL\Mvc03.Demo.BLL.csproj", "{2C964C51-F1EC-42EA-A43F-0D123FAEB5D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
