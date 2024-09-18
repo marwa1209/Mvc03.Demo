@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Mvc.Demo.DAL.Data.Contexts;
+using Mvc03.Demo.BLL.Interfaces;
+using Mvc03.Demo.BLL.Repositories;
+using Mvc03.Demo.PL.Controllers;
 
 namespace Mvc03.Demo.PL
 {
@@ -16,6 +19,8 @@ namespace Mvc03.Demo.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConection"));
             }); //scoped
+             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); //allow DI for Department Repository
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
