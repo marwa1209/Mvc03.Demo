@@ -37,20 +37,18 @@ namespace Mvc03.Demo.PL.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Details(int? Id)
+        public IActionResult Details(int? Id ,string viewName = "Details")
         {
             if (Id is null) return BadRequest();
             var department = _departmentRepository.GetDepartment(Id.Value);
             if (department is null) return BadRequest();
-            return View(department);
+            return View(viewName,department);
         }
         [HttpGet]
         public IActionResult Update(int? Id)
         {
-            if (Id is null) return BadRequest();
-            var department = _departmentRepository.GetDepartment(Id.Value);
-            if (department is null) return BadRequest();
-            return View(department);
+
+            return Details(Id,"Update");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
