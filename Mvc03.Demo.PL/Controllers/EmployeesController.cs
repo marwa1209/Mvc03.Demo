@@ -4,18 +4,18 @@ using Mvc03.Demo.BLL.Interfaces;
 
 namespace Mvc03.Demo.PL.Controllers
 {
-    public class DepartmentsController : Controller
+    public class EmployeesController : Controller
     {
-        private readonly IDepartmentRepository _departmentRepository;
-        public DepartmentsController(IDepartmentRepository DepartmentRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        public EmployeesController(IEmployeeRepository  EmployeeRepository)
         {
-            _departmentRepository = DepartmentRepository;
+            _employeeRepository = EmployeeRepository;
         }
         [HttpGet]
         public IActionResult Index()
         {
-            var departments = _departmentRepository.GetAll();
-            return View(departments);
+            var employees = _employeeRepository.GetAll();
+            return View(employees);
         }
         [HttpGet]
         public IActionResult Create()
@@ -24,11 +24,11 @@ namespace Mvc03.Demo.PL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Department model)
+        public IActionResult Create(Employee model)
         {
             if (ModelState.IsValid)
             {
-                var Count = _departmentRepository.Add(model);
+                var Count = _employeeRepository.Add(model);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -37,27 +37,27 @@ namespace Mvc03.Demo.PL.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Details(int? Id ,string viewName = "Details")
+        public IActionResult Details(int? Id, string viewName = "Details")
         {
             if (Id is null) return BadRequest();
-            var department = _departmentRepository.Get(Id.Value);
-            if (department is null) return BadRequest();
-            return View(viewName,department);
+            var employee = _employeeRepository.Get(Id.Value);
+            if (employee is null) return BadRequest();
+            return View(viewName, employee);
         }
         [HttpGet]
         public IActionResult Update(int? Id)
         {
 
-            return Details(Id,"Update");
+            return Details(Id, "Update");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update([FromRoute] int? id, Department model)
+        public IActionResult Update([FromRoute] int? id, Employee model)
         {
             if (id != model.Id) return BadRequest();
             if (ModelState.IsValid)
             {
-                var Count = _departmentRepository.Update(model);
+                var Count = _employeeRepository.Update(model);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -71,10 +71,10 @@ namespace Mvc03.Demo.PL.Controllers
         {
             try
             {
-                var department = _departmentRepository.Get(id);
-                if (department == null) return NotFound();
+                var employee = _employeeRepository.Get(id);
+                if (employee == null) return NotFound();
 
-                var Count = _departmentRepository.Delete(department);
+                var Count = _employeeRepository.Delete(employee);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -87,7 +87,5 @@ namespace Mvc03.Demo.PL.Controllers
 
             return BadRequest();
         }
-
-
     }
 }

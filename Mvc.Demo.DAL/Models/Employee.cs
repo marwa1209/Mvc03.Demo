@@ -15,6 +15,7 @@ namespace Mvc.Demo.DAL.Models
         [Range(25,60,ErrorMessage ="Age Must Be Between 25 and 60")]
         public int? Age { get; set; }
         [Required(ErrorMessage = "Salary Is Required")]
+        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
         [EmailAddress]
         public string Email { get; set; }

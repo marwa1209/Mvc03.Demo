@@ -1,0 +1,58 @@
+﻿@model Employee
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="my-4">
+    <h1>Department Details</h1>
+    <form class="my-5">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Age" class="form-label"></label>
+            <input asp-for="Age" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Salary" class="form-label"></label>
+            <input asp-for="Salary" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <div class="form-check">
+                <input asp-for="IsActive" class="form-check-input" type="checkbox" readonly>
+                <label asp-for="IsActive" class="form-check-label" ></label>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="HiringDate" class="form-label"></label>
+            <input asp-for="HiringDate" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DateOfCreation" class="form-label"></label>
+            <input asp-for="DateOfCreation" class="form-control" readonly>
+
+        </div>
+        <div class="d-flex gap-4 my-4">
+            <a asp-controller="Employees" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-controller="Employees" asp-action="Index" class="btn btn-outline-dark">Back To List </a>
+        </div>
+
+
+    </form>
+</div>

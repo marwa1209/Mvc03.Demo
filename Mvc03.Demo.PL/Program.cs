@@ -20,7 +20,7 @@ namespace Mvc03.Demo.PL
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConection"));
             }); //scoped
              builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); //allow DI for Department Repository
-
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//allow DI for Employee Repository
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
