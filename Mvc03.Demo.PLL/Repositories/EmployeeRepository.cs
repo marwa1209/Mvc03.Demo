@@ -10,40 +10,11 @@ using System.Transactions;
 
 namespace Mvc03.Demo.BLL.Repositories
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee> ,IEmployeeRepository
     {
-        private readonly AppDBContext _dbContext;
-        public EmployeeRepository(AppDBContext dbContext)
+        public EmployeeRepository(AppDBContext dbContext):base(dbContext) 
         {
-            _dbContext = dbContext;
         }
 
-        public IEnumerable<Employee> GetAll()
-        {
-            return _dbContext.Employees.ToList();
-        }
-
-        public Employee GetEmployee(int? Id)
-        {
-            return _dbContext.Employees.Find(Id);
-        }
-
-        public int Add(Employee entity)
-        {
-            _dbContext.Employees.Add(entity);
-            return _dbContext.SaveChanges();
-        }
-
-        public int Delete(Employee entity)
-        {
-            _dbContext.Employees.Remove(entity);
-            return _dbContext.SaveChanges();
-        }
-
-        public int Update(Employee entity)
-        {
-            _dbContext.Employees.Update(entity);
-            return _dbContext.SaveChanges();
-        }
     }
 }
