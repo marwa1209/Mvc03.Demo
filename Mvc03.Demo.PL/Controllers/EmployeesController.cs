@@ -14,10 +14,17 @@ namespace Mvc03.Demo.PL.Controllers
             _employeeRepository = EmployeeRepository;
             _departmentRepository=DepartmentRepository;
         }
-        [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            var employees = _employeeRepository.GetAll();
+            var employees=Enumerable.Empty<Employee>();
+            if (string.IsNullOrEmpty(searchString))
+            {
+                 employees = _employeeRepository.GetAll();
+            }
+            else
+            {
+                 employees = _employeeRepository.GetByName(searchString);
+            }
             /// View's Dictionary:Transfer From Action To View [One Way]
             /// 1.ViewData:Property Inherited from Controller Class,Dictionary
             /// ViewData["Data01"]="Hello World From Data01 ViewData";//Required Casting

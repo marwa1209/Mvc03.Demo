@@ -12,7 +12,7 @@ namespace Mvc03.Demo.BLL.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : Base
     {
-        private readonly AppDBContext _dbContext;//null
+        private protected readonly AppDBContext _dbContext;//null
         public GenericRepository(AppDBContext dbContext)
         {
             _dbContext = dbContext;

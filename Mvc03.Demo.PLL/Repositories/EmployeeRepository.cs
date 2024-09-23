@@ -1,4 +1,5 @@
-﻿using Mvc.Demo.DAL.Data.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using Mvc.Demo.DAL.Data.Contexts;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
 using System;
@@ -16,5 +17,9 @@ namespace Mvc03.Demo.BLL.Repositories
         {
         }
 
+        public IEnumerable<Employee> GetByName(string name)
+        {
+            return _dbContext.Employees.Where(E=>E.Name.ToLower().Contains(name.ToLower())).Include(E=>E.WorkFor).ToList();
+        }
     }
 }
