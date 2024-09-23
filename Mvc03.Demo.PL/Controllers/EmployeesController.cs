@@ -15,6 +15,13 @@ namespace Mvc03.Demo.PL.Controllers
         public IActionResult Index()
         {
             var employees = _employeeRepository.GetAll();
+            /// View's Dictionary:Transfer From Action To View [One Way]
+            /// 1.ViewData:Property Inherited from Controller Class,Dictionary
+            /// ViewData["Data01"]="Hello World From Data01 ViewData";//Required Casting
+            /// 2.ViewBag:Property Inherited from Controller Class,dynamic
+            /// ViewBag.Data02="Hello World From ViewBag"//Not Required Casting
+            /// 3.TempData:Property Inherited from Controller Class,Dictionary
+            /// TempData["Data01"]="Hello World From Data01 TempData"; //transfer data from request to another request
             return View(employees);
         }
         [HttpGet]
