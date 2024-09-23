@@ -5,6 +5,7 @@ namespace Mvc03.Demo.PL.ViewModels.Employees
 {
     public class EmployeeViewModel
     {
+        
         public int Id { get; set; }
         [Required(ErrorMessage = "Name Is Required")]
         public string Name { get; set; }
@@ -23,5 +24,7 @@ namespace Mvc03.Demo.PL.ViewModels.Employees
         public DateTime HiringDate { get; set; }
         public int? WorkForId { get; set; }//FK
         public Department? WorkFor { get; set; } //Navifitional Property -Optional
-    }
+        public IFormFile? Image { get; set; }
+        public string? ImageName { get; set; }
+ }
 }

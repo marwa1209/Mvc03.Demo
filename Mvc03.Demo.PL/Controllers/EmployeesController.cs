@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
 using Mvc03.Demo.BLL.Repositories;
+using Mvc03.Demo.PL.Helper;
 using Mvc03.Demo.PL.ViewModels.Employees;
 
 namespace Mvc03.Demo.PL.Controllers
@@ -22,8 +23,8 @@ namespace Mvc03.Demo.PL.Controllers
             )
 
         {
-           //employeeRepository = EmployeeRepository;
-          //_departmentRepository = DepartmentRepository;
+            //employeeRepository = EmployeeRepository;
+            //_departmentRepository = DepartmentRepository;
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -80,6 +81,10 @@ namespace Mvc03.Demo.PL.Controllers
             var employee = mapper.Map<Employee>(model);
             if (ModelState.IsValid)
             {
+                if (model.ImageName is not null)
+                {
+                    model.ImageName = DocumentSettings.Upload(model.Image, "Images");
+                }
                 var Count = _unitOfWork.EmployeeRepository.Add(employee);
                 if (Count > 0)
                 {
