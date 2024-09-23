@@ -12,5 +12,7 @@ namespace Mvc.Demo.DAL.Models
         [Required(ErrorMessage ="Code Is Required")]
         public string Code { get; set; }
 
+        public ICollection<Employee>? Employees { get; set; }
+
     }
 }

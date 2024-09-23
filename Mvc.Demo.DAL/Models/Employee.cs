@@ -24,5 +24,7 @@ namespace Mvc.Demo.DAL.Models
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime HiringDate { get; set; }
+        public int? WorkForId { get; set; }//FK
+        public Department? WorkFor { get; set; } //Navifitional Property -Optional
     }
 }
