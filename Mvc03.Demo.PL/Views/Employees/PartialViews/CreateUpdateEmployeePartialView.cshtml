@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
 @{
     var departments = new SelectList(ViewData["departments"] as IEnumerable<Department>, nameof(Department.Id), nameof(Department.Name));
 }
@@ -44,10 +44,6 @@
     <label asp-for="HiringDate" class="form-label"></label>
     <input asp-for="HiringDate" class="form-control">
     <span asp-validation-for="HiringDate" class="text-danger"></span>
-</div>
-<div class="mb-3">
-    <label asp-for="DateOfCreation" class="form-label"></label>
-    <input asp-for="DateOfCreation" class="form-control">
 </div>
 <div class="mb-3">
     <label asp-for="WorkFor" class="form-label"></label>

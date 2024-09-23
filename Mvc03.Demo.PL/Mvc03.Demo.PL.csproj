@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Mvc03.Demo.PLL\Mvc03.Demo.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Departments\" />
+  </ItemGroup>
+
 </Project>

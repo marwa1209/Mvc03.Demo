@@ -1,4 +1,4 @@
-﻿@model Employee
+﻿@model EmployeeViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -42,11 +42,6 @@
         <div class="mb-3">
             <label asp-for="HiringDate" class="form-label"></label>
             <input asp-for="HiringDate" class="form-control" readonly>
-        </div>
-        <div class="mb-3">
-            <label asp-for="DateOfCreation" class="form-label"></label>
-            <input asp-for="DateOfCreation" class="form-control" readonly>
-
         </div>
         <div class="d-flex gap-4 my-4">
             <a asp-controller="Employees" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
