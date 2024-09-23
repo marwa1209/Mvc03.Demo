@@ -1,5 +1,7 @@
 ﻿@model Employee
-
+@{
+    var departments = new SelectList(ViewData["departments"] as IEnumerable<Department>, nameof(Department.Id), nameof(Department.Name));
+}
 <div asp-validation-summary="All"></div>
 <div class="mb-3">
     <label asp-for="Name" class="form-label"></label>
@@ -46,4 +48,10 @@
 <div class="mb-3">
     <label asp-for="DateOfCreation" class="form-label"></label>
     <input asp-for="DateOfCreation" class="form-control">
+</div>
+<div class="mb-3">
+    <label asp-for="WorkFor" class="form-label"></label>
+    <select asp-for=WorkForId asp-items="departments" class="form-control">
+        <option value="@null">--Select Department --</option>
+    </select>
 </div>

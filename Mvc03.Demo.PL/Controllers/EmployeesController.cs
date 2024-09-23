@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
+using Mvc03.Demo.BLL.Repositories;
 
 namespace Mvc03.Demo.PL.Controllers
 {
     public class EmployeesController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
-        public EmployeesController(IEmployeeRepository  EmployeeRepository)
+        private readonly IDepartmentRepository _departmentRepository;
+        public EmployeesController(IEmployeeRepository  EmployeeRepository , IDepartmentRepository DepartmentRepository)
         {
             _employeeRepository = EmployeeRepository;
+            _departmentRepository=DepartmentRepository;
         }
         [HttpGet]
         public IActionResult Index()
@@ -27,6 +30,8 @@ namespace Mvc03.Demo.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var departments = _departmentRepository.GetAll();
+            ViewData["departments"] = departments;
             return View();
         }
         [HttpPost]
@@ -54,7 +59,8 @@ namespace Mvc03.Demo.PL.Controllers
         [HttpGet]
         public IActionResult Update(int? Id)
         {
-
+            var departments = _departmentRepository.GetAll();
+            ViewData["departments"] = departments;
             return Details(Id, "Update");
         }
         [HttpPost]

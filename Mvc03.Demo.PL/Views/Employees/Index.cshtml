@@ -11,6 +11,7 @@
         <table class="table table-striped table-hover my-5">
             <thead>
             <th>@Html.DisplayNameFor(d => d.Name)</th>
+            <th>@Html.DisplayNameFor(d => d.WorkFor)</th>
             <th>@Html.DisplayNameFor(d => d.Age)</th>
             <th>@Html.DisplayNameFor(d => d.Address)</th>
             <th>@Html.DisplayNameFor(d => d.Email)</th>
@@ -28,6 +29,7 @@
                 {
                     <tr>
                         <td>@employee.Name</td>
+                        <td>@employee.WorkFor?.Name</td>
                         <td>@employee.Age</td>
                         <td>@employee.Address</td>
                         <td>@Html.DisplayFor(em=>employee.Email)</td>

@@ -1,4 +1,5 @@
-﻿using Mvc.Demo.DAL.Data.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using Mvc.Demo.DAL.Data.Contexts;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
 using System;
@@ -18,6 +19,10 @@ namespace Mvc03.Demo.BLL.Repositories
         }
         public IEnumerable<T> GetAll()
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>) _dbContext.Employees.Include(E => E.WorkFor).ToList();
+            }
             return _dbContext.Set<T>().ToList();
         }
         public T Get(int? Id)
