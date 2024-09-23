@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Mvc.Demo.DAL.Data.Contexts;
 using Mvc03.Demo.BLL.Interfaces;
+using Mvc03.Demo.BLL;
 using Mvc03.Demo.BLL.Repositories;
 using Mvc03.Demo.PL.Controllers;
 using Mvc03.Demo.PL.Mapping.Employees;
@@ -21,10 +22,10 @@ namespace Mvc03.Demo.PL
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConection"));
             }); //scoped
-             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>(); //allow DI for Department Repository
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); //allow DI for Department Repository
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();//allow DI for Employee Repository
-
-            builder.Services.AddScoped<IScopedService,ScopedService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IScopedService, ScopedService>();
             builder.Services.AddTransient<ITransientService, TransientService>();
             builder.Services.AddSingleton<ISingeltonService, SingeltonService>();
 

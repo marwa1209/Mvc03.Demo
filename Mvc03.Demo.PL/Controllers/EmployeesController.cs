@@ -9,15 +9,22 @@ namespace Mvc03.Demo.PL.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IEmployeeRepository _employeeRepository;
+        //private readonly IDepartmentRepository _departmentRepository;
         private readonly IMapper mapper;
 
-        public EmployeesController(IEmployeeRepository EmployeeRepository, IDepartmentRepository DepartmentRepository, IMapper mapper)
+        public EmployeesController(
+         //EmployeeRepository EmployeeRepository,
+         // IDepartmentRepository DepartmentRepository, 
+         IUnitOfWork unitOfWork,
+            IMapper mapper
+            )
 
         {
-            _employeeRepository = EmployeeRepository;
-            _departmentRepository = DepartmentRepository;
+           //employeeRepository = EmployeeRepository;
+          //_departmentRepository = DepartmentRepository;
+            _unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
         public IActionResult Index(string searchString)
@@ -25,11 +32,11 @@ namespace Mvc03.Demo.PL.Controllers
             var employees = Enumerable.Empty<Employee>();
             if (string.IsNullOrEmpty(searchString))
             {
-                employees = _employeeRepository.GetAll();
+                employees = _unitOfWork.EmployeeRepository.GetAll();
             }
             else
             {
-                employees = _employeeRepository.GetByName(searchString);
+                employees = _unitOfWork.EmployeeRepository.GetByName(searchString);
             }
             var Results = mapper.Map<IEnumerable<EmployeeViewModel>>(employees);
             /// View's Dictionary:Transfer From Action To View [One Way]
@@ -44,7 +51,7 @@ namespace Mvc03.Demo.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             ViewData["departments"] = departments;
             return View();
         }
@@ -73,7 +80,7 @@ namespace Mvc03.Demo.PL.Controllers
             var employee = mapper.Map<Employee>(model);
             if (ModelState.IsValid)
             {
-                var Count = _employeeRepository.Add(employee);
+                var Count = _unitOfWork.EmployeeRepository.Add(employee);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -86,7 +93,7 @@ namespace Mvc03.Demo.PL.Controllers
         {
             if (id is null) return BadRequest();
 
-            var model = _employeeRepository.Get(id.Value);
+            var model = _unitOfWork.EmployeeRepository.Get(id.Value);
             if (model is null) return NotFound();
 
             // Map Employee to EmployeeViewModel
@@ -113,7 +120,7 @@ namespace Mvc03.Demo.PL.Controllers
         {
             if (id is null) return BadRequest();
 
-            var model = _employeeRepository.Get(id.Value);
+            var model = _unitOfWork.EmployeeRepository.Get(id.Value);
             if (model is null) return NotFound();
 
             //var employeeViewModel = new EmployeeViewModel()
@@ -131,7 +138,7 @@ namespace Mvc03.Demo.PL.Controllers
             //    IsActive = model.IsActive
             //};
             var employeeViewModel = mapper.Map<EmployeeViewModel>(model);
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             ViewData["departments"] = departments;
 
             return View("Update", employeeViewModel);
@@ -161,14 +168,14 @@ namespace Mvc03.Demo.PL.Controllers
                 //    IsActive = model.IsActive
                 //};
                 var employee = mapper.Map<Employee>(model);
-                var count = _employeeRepository.Update(employee);
+                var count = _unitOfWork.EmployeeRepository.Update(employee);
                 if (count > 0)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
 
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             ViewData["departments"] = departments;
 
             return View(model);
@@ -180,10 +187,10 @@ namespace Mvc03.Demo.PL.Controllers
         {
             try
             {
-                var employee = _employeeRepository.Get(id);
+                var employee = _unitOfWork.EmployeeRepository.Get(id);
                 if (employee == null) return NotFound();
 
-                var Count = _employeeRepository.Delete(employee);
+                var Count = _unitOfWork.EmployeeRepository.Delete(employee);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
