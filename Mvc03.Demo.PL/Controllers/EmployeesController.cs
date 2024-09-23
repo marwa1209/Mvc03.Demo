@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
 using Mvc03.Demo.BLL.Repositories;
@@ -10,22 +11,27 @@ namespace Mvc03.Demo.PL.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IDepartmentRepository _departmentRepository;
-        public EmployeesController(IEmployeeRepository  EmployeeRepository , IDepartmentRepository DepartmentRepository)
+        private readonly IMapper mapper;
+
+        public EmployeesController(IEmployeeRepository EmployeeRepository, IDepartmentRepository DepartmentRepository, IMapper mapper)
+
         {
             _employeeRepository = EmployeeRepository;
-            _departmentRepository=DepartmentRepository;
+            _departmentRepository = DepartmentRepository;
+            this.mapper = mapper;
         }
         public IActionResult Index(string searchString)
         {
-            var employees=Enumerable.Empty<Employee>();
+            var employees = Enumerable.Empty<Employee>();
             if (string.IsNullOrEmpty(searchString))
             {
-                 employees = _employeeRepository.GetAll();
+                employees = _employeeRepository.GetAll();
             }
             else
             {
-                 employees = _employeeRepository.GetByName(searchString);
+                employees = _employeeRepository.GetByName(searchString);
             }
+            var Results = mapper.Map<IEnumerable<EmployeeViewModel>>(employees);
             /// View's Dictionary:Transfer From Action To View [One Way]
             /// 1.ViewData:Property Inherited from Controller Class,Dictionary
             /// ViewData["Data01"]="Hello World From Data01 ViewData";//Required Casting
@@ -33,7 +39,7 @@ namespace Mvc03.Demo.PL.Controllers
             /// ViewBag.Data02="Hello World From ViewBag"//Not Required Casting
             /// 3.TempData:Property Inherited from Controller Class,Dictionary
             /// TempData["Data01"]="Hello World From Data01 TempData"; //transfer data from request to another request
-            return View(employees);
+            return View(Results);
         }
         [HttpGet]
         public IActionResult Create()
