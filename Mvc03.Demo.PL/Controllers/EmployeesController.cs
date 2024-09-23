@@ -55,21 +55,22 @@ namespace Mvc03.Demo.PL.Controllers
             //cast employeeViewModel to Employee
             //Mapping
             //1.Manual Mapping
-            Employee employee = new Employee()
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Address = model.Address,
-                Salary = model.Salary,
-                Age = model.Age,
-                HiringDate = model.HiringDate,
-                WorkFor = model.WorkFor,
-                WorkForId = model.WorkForId,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                IsActive = model.IsActive,
-            };
+            //Employee employee = new Employee()
+            //{
+            //    Id = model.Id,
+            //    Name = model.Name,
+            //    Address = model.Address,
+            //    Salary = model.Salary,
+            //    Age = model.Age,
+            //    HiringDate = model.HiringDate,
+            //    WorkFor = model.WorkFor,
+            //    WorkForId = model.WorkForId,
+            //    Email = model.Email,
+            //    PhoneNumber = model.PhoneNumber,
+            //    IsActive = model.IsActive,
+            //};
             //2.Auto Mapping
+            var employee = mapper.Map<Employee>(model);
             if (ModelState.IsValid)
             {
                 var Count = _employeeRepository.Add(employee);
@@ -89,21 +90,21 @@ namespace Mvc03.Demo.PL.Controllers
             if (model is null) return NotFound();
 
             // Map Employee to EmployeeViewModel
-            var employeeViewModel = new EmployeeViewModel()
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Address = model.Address,
-                Salary = model.Salary,
-                Age = model.Age,
-                HiringDate = model.HiringDate,
-                WorkFor = model.WorkFor,
-                WorkForId = model.WorkForId,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                IsActive = model.IsActive
-            };
-
+            //var employeeViewModel = new EmployeeViewModel()
+            //{
+            //    Id = model.Id,
+            //    Name = model.Name,
+            //    Address = model.Address,
+            //    Salary = model.Salary,
+            //    Age = model.Age,
+            //    HiringDate = model.HiringDate,
+            //    WorkFor = model.WorkFor,
+            //    WorkForId = model.WorkForId,
+            //    Email = model.Email,
+            //    PhoneNumber = model.PhoneNumber,
+            //    IsActive = model.IsActive
+            //};
+            var employeeViewModel = mapper.Map<EmployeeViewModel>(model);
             return View(viewName, employeeViewModel);
         }
 
@@ -115,21 +116,21 @@ namespace Mvc03.Demo.PL.Controllers
             var model = _employeeRepository.Get(id.Value);
             if (model is null) return NotFound();
 
-            var employeeViewModel = new EmployeeViewModel()
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Address = model.Address,
-                Salary = model.Salary,
-                Age = model.Age,
-                HiringDate = model.HiringDate,
-                WorkFor = model.WorkFor,
-                WorkForId = model.WorkForId,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                IsActive = model.IsActive
-            };
-
+            //var employeeViewModel = new EmployeeViewModel()
+            //{
+            //    Id = model.Id,
+            //    Name = model.Name,
+            //    Address = model.Address,
+            //    Salary = model.Salary,
+            //    Age = model.Age,
+            //    HiringDate = model.HiringDate,
+            //    WorkFor = model.WorkFor,
+            //    WorkForId = model.WorkForId,
+            //    Email = model.Email,
+            //    PhoneNumber = model.PhoneNumber,
+            //    IsActive = model.IsActive
+            //};
+            var employeeViewModel = mapper.Map<EmployeeViewModel>(model);
             var departments = _departmentRepository.GetAll();
             ViewData["departments"] = departments;
 
@@ -145,21 +146,21 @@ namespace Mvc03.Demo.PL.Controllers
             if (ModelState.IsValid)
             {
                 // Manual mapping from EmployeeViewModel to Employee
-                var employee = new Employee()
-                {
-                    Id = model.Id,
-                    Name = model.Name,
-                    Address = model.Address,
-                    Salary = model.Salary,
-                    Age = model.Age,
-                    HiringDate = model.HiringDate,
-                    WorkFor = model.WorkFor,
-                    WorkForId = model.WorkForId,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    IsActive = model.IsActive
-                };
-
+                //var employee = new Employee()
+                //{
+                //    Id = model.Id,
+                //    Name = model.Name,
+                //    Address = model.Address,
+                //    Salary = model.Salary,
+                //    Age = model.Age,
+                //    HiringDate = model.HiringDate,
+                //    WorkFor = model.WorkFor,
+                //    WorkForId = model.WorkForId,
+                //    Email = model.Email,
+                //    PhoneNumber = model.PhoneNumber,
+                //    IsActive = model.IsActive
+                //};
+                var employee = mapper.Map<Employee>(model);
                 var count = _employeeRepository.Update(employee);
                 if (count > 0)
                 {

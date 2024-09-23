@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -24,7 +24,6 @@
             <th>@Html.DisplayNameFor(d => d.IsActive)</th>
             <th>@Html.DisplayNameFor(d => d.PhoneNumber)</th>
             <th>@Html.DisplayNameFor(d => d.HiringDate)</th>
-            <th>@Html.DisplayNameFor(d => d.DateOfCreation)</th>
             <th>Details</th>
             <th>Update</th>
             <th>Delete</th>
@@ -42,7 +41,6 @@
                         <td>@Html.DisplayFor(em => employee.IsActive)</td>
                         <td>@Html.DisplayFor(em => employee.PhoneNumber)</td>
                         <td>@employee.HiringDate</td>
-                        <td>@employee.DateOfCreation</td>
                         <td>
                             <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Details</a>
                         </td>
