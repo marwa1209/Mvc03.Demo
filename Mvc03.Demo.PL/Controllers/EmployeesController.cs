@@ -28,16 +28,16 @@ namespace Mvc03.Demo.PL.Controllers
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public IActionResult Index(string searchString)
+        public async Task<IActionResult> Index(string searchString)
         {
             var employees = Enumerable.Empty<Employee>();
             if (string.IsNullOrEmpty(searchString))
             {
-                employees = _unitOfWork.EmployeeRepository.GetAll();
+                employees =await _unitOfWork.EmployeeRepository.GetAllAsync();
             }
             else
             {
-                employees = _unitOfWork.EmployeeRepository.GetByName(searchString);
+                employees =await _unitOfWork.EmployeeRepository.GetByNameAsync(searchString);
             }
             var Results = mapper.Map<IEnumerable<EmployeeViewModel>>(employees);
             /// View's Dictionary:Transfer From Action To View [One Way]
@@ -50,15 +50,15 @@ namespace Mvc03.Demo.PL.Controllers
             return View(Results);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments =await _unitOfWork.DepartmentRepository.GetAllAsync();
             ViewData["departments"] = departments;
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(EmployeeViewModel model)
+        public async Task<IActionResult> Create(EmployeeViewModel model)
         {
             //cast employeeViewModel to Employee
             //Mapping
@@ -86,7 +86,7 @@ namespace Mvc03.Demo.PL.Controllers
                 }
                 var employee = mapper.Map<Employee>(model);
 
-                var Count = _unitOfWork.EmployeeRepository.Add(employee);
+                var Count =await _unitOfWork.EmployeeRepository.AddAsync(employee);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));
@@ -95,11 +95,11 @@ namespace Mvc03.Demo.PL.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Details(int? id, string viewName = "Details")
+        public async Task<IActionResult> Details(int? id, string viewName = "Details")
         {
             if (id is null) return BadRequest();
 
-            var model = _unitOfWork.EmployeeRepository.Get(id.Value);
+            var model = await _unitOfWork.EmployeeRepository.GetAsync(id.Value);
             if (model is null) return NotFound();
 
             // Map Employee to EmployeeViewModel
@@ -122,11 +122,11 @@ namespace Mvc03.Demo.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id is null) return BadRequest();
 
-            var model = _unitOfWork.EmployeeRepository.Get(id.Value);
+            var model =await _unitOfWork.EmployeeRepository.GetAsync(id.Value);
             if (model is null) return NotFound();
 
             //var employeeViewModel = new EmployeeViewModel()
@@ -145,7 +145,7 @@ namespace Mvc03.Demo.PL.Controllers
             //};
             var employeeViewModel = mapper.Map<EmployeeViewModel>(model);
 
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments =await _unitOfWork.DepartmentRepository.GetAllAsync();
             ViewData["departments"] = departments;
 
             return View("Update", employeeViewModel);
@@ -153,7 +153,7 @@ namespace Mvc03.Demo.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update([FromRoute] int? id, EmployeeViewModel model)
+        public async Task<IActionResult> Update([FromRoute] int? id, EmployeeViewModel model)
         {
             if (id != model.Id) return BadRequest();
 
@@ -183,14 +183,14 @@ namespace Mvc03.Demo.PL.Controllers
                 //    IsActive = model.IsActive
                 //};
                 var employee = mapper.Map<Employee>(model);
-                var count = _unitOfWork.EmployeeRepository.Update(employee);
+                var count = await _unitOfWork.EmployeeRepository.UpdateAsync(employee);
                 if (count > 0)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
 
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments = await _unitOfWork.DepartmentRepository.GetAllAsync();
             ViewData["departments"] = departments;
 
             return View(model);
@@ -198,14 +198,14 @@ namespace Mvc03.Demo.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var employee = _unitOfWork.EmployeeRepository.Get(id);
+                var employee = await _unitOfWork.EmployeeRepository.GetAsync(id);
                 if (employee == null) return NotFound();
 
-                var Count = _unitOfWork.EmployeeRepository.Delete(employee);
+                var Count =await _unitOfWork.EmployeeRepository.DeleteAsync(employee);
                 if (Count > 0)
                 {
                     return RedirectToAction(nameof(Index));

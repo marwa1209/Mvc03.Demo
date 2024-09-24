@@ -9,10 +9,10 @@ namespace Mvc03.Demo.BLL.Interfaces
 {
     public interface IGenericRepository<T>
     {
-        IEnumerable<T> GetAll();
-        T Get(int? Id);
-        int Add(T entity);
-        int Update(T entity);
-        int Delete(T entity);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetAsync(int? Id);
+        Task<int> AddAsync(T entity);
+        Task<int> UpdateAsync(T entity);
+        Task<int> DeleteAsync(T entity);
     }
 }

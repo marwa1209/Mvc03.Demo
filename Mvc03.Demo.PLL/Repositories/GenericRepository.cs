@@ -17,35 +17,35 @@ namespace Mvc03.Demo.BLL.Repositories
         {
             _dbContext = dbContext;
         }
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             if (typeof(T) == typeof(Employee))
             {
-                return (IEnumerable<T>) _dbContext.Employees.Include(E => E.WorkFor).ToList();
+                return (IEnumerable<T>) await _dbContext.Employees.Include(E => E.WorkFor).ToListAsync();
             }
-            return _dbContext.Set<T>().ToList();
+            return await _dbContext.Set<T>().ToListAsync();
         }
-        public T Get(int? Id)
+        public async Task<T> GetAsync(int? Id)
         {
-            return _dbContext.Set<T>().Find(Id);
+            return await _dbContext.Set<T>().FindAsync(Id);
         }
 
-        public int Add(T entity)
+        public async Task<int> AddAsync(T entity) 
         {
-            _dbContext.Set<T>().Add(entity);
-            return _dbContext.SaveChanges();
+            await _dbContext.Set<T>().AddAsync(entity); 
+            return await _dbContext.SaveChangesAsync();  
         }
 
-        public int Delete(T entity)
+        public async Task<int> DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();  
         }
 
-        public int Update(T entity)
+        public async Task<int> UpdateAsync(T entity) 
         {
             _dbContext.Set<T>().Update(entity);
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();  
         }
     }
 }
