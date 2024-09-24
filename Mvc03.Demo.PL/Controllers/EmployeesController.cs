@@ -144,6 +144,7 @@ namespace Mvc03.Demo.PL.Controllers
             //    IsActive = model.IsActive
             //};
             var employeeViewModel = mapper.Map<EmployeeViewModel>(model);
+
             var departments = _unitOfWork.DepartmentRepository.GetAll();
             ViewData["departments"] = departments;
 
@@ -158,6 +159,14 @@ namespace Mvc03.Demo.PL.Controllers
 
             if (ModelState.IsValid)
             {
+                if (model.ImageName != null)
+                {
+                    DocumentSettings.Delete(model.ImageName, "Images");
+                }
+                if (model.Image is not null)
+                {
+                    model.ImageName = DocumentSettings.Upload(model.Image, "Images");
+                }
                 // Manual mapping from EmployeeViewModel to Employee
                 //var employee = new Employee()
                 //{

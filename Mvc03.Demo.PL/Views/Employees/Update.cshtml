@@ -6,8 +6,10 @@
 
 <div class="my-4">
     <h1>Update Employee @Model.Name Info </h1>
-    <form class="my-5" asp-action="Update">
+    <form class="my-5" asp-action="Update" enctype="multipart/form-data">
         <partial name="PartialViews/CreateUpdateEmployeePartialView" model="Model" />
+        <input hidden asp-for="@Model.ImageName" />
+
         <div class="d-flex gap-4 my-4">
             <input type="submit" value="Save" class="btn btn-primary" />
             <a asp-controller="Employees" asp-action="Index" class="btn btn-outline-dark">Back To List </a>
