@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Mvc.Demo.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Mvc.Demo.DAL.Data.Contexts
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<ApplicationUser>
     {
         public AppDBContext(DbContextOptions<AppDBContext> options):base(options)
         {
@@ -18,6 +20,7 @@ namespace Mvc.Demo.DAL.Data.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
