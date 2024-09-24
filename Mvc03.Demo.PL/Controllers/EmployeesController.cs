@@ -78,13 +78,14 @@ namespace Mvc03.Demo.PL.Controllers
             //    IsActive = model.IsActive,
             //};
             //2.Auto Mapping
-            var employee = mapper.Map<Employee>(model);
             if (ModelState.IsValid)
             {
-                if (model.ImageName is not null)
+                if (model.Image is not null)
                 {
                     model.ImageName = DocumentSettings.Upload(model.Image, "Images");
                 }
+                var employee = mapper.Map<Employee>(model);
+
                 var Count = _unitOfWork.EmployeeRepository.Add(employee);
                 if (Count > 0)
                 {

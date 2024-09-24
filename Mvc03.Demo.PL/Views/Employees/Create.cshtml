@@ -1,4 +1,4 @@
-﻿@model EmployeeViewModel
+﻿ @model EmployeeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <div class="my-4">
     <h1>Add New Employee</h1>
-    <form class="my-5" asp-action="Create">
+    <form class="my-5" asp-action="Create" enctype="multipart/form-data">
         <partial name="PartialViews/CreateUpdateEmployeePartialView" model="Model" />
         <div class="d-flex gap-4 my-4">
             <input type="submit" value="Create" class="btn btn-primary" />

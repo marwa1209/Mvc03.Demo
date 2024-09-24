@@ -26,5 +26,5 @@ namespace Mvc03.Demo.PL.ViewModels.Employees
         public Department? WorkFor { get; set; } //Navifitional Property -Optional
         public IFormFile? Image { get; set; }
         public string? ImageName { get; set; }
- }
+    }
 }
