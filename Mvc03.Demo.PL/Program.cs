@@ -6,6 +6,8 @@ using Mvc03.Demo.BLL.Repositories;
 using Mvc03.Demo.PL.Controllers;
 using Mvc03.Demo.PL.Mapping.Employees;
 using Mvc03.Demo.PL.Services;
+using Microsoft.AspNetCore.Identity;
+using Mvc.Demo.DAL.Models;
 
 namespace Mvc03.Demo.PL
 {
@@ -30,7 +32,10 @@ namespace Mvc03.Demo.PL
             builder.Services.AddSingleton<ISingeltonService, SingeltonService>();
 
 
+           // builder.Services.AddScoped<UserManager<ApplicationUser>>();
+
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
+            builder.Services.AddIdentity<ApplicationUser , IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
