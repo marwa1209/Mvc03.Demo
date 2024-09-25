@@ -35,7 +35,7 @@ namespace Mvc03.Demo.PL
            // builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
-            builder.Services.AddIdentity<ApplicationUser , IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+            builder.Services.AddIdentity<ApplicationUser , IdentityRole>().AddEntityFrameworkStores<AppDBContext>().AddDefaultTokenProviders();
             builder.Services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = "/Account/SignIn";

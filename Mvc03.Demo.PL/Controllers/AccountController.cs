@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Mvc.Demo.DAL.Models;
+using Mvc03.Demo.PL.Helper;
 using Mvc03.Demo.PL.ViewModels.Auth;
 
 namespace Mvc03.Demo.PL.Controllers
@@ -71,8 +72,9 @@ namespace Mvc03.Demo.PL.Controllers
             }
 
             return View(model);
-        } 
+        }
         #endregion
+
         #region SignIn
         //SignIn
         public IActionResult SignIn()
@@ -115,15 +117,54 @@ namespace Mvc03.Demo.PL.Controllers
             }
 
             return View(model);
-        } 
+        }
         #endregion
 
+        #region SignOut
         public new async Task<IActionResult> SignOut()
         {
-           await SignInManager.SignOutAsync();
+            await SignInManager.SignOutAsync();
             return RedirectToAction(nameof(SignIn));
         }
+        #endregion
 
+        #region ForgetPassword
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    //Create Token
+                    var token = await UserManager.GeneratePasswordResetTokenAsync(user);
+                    //Create Reset Password URL
+                    var url = Url.Action("ResetPassword", "Account", new { email = model.Email,token }, Request.Scheme);
+                    //Create Email
+                    var email = new Email()
+                    {
+                        To = model.Email,
+                        Subject = "Reset Password",
+                        Body = "URL"
+                    };
+                    //Send Email
+                    EmailSettings.SendEmail(email);
+                    return RedirectToAction(nameof(CheckYourInbox));
+                }
+                ModelState.AddModelError(String.Empty, "Invalid Operation , Please Try Again !!");
+            }
+            return View(model);
+        }
 
+        #endregion
+        public IActionResult CheckYourInbox() 
+        {
+            return View();
+        }
     }
 }
