@@ -36,6 +36,10 @@ namespace Mvc03.Demo.PL
 
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
             builder.Services.AddIdentity<ApplicationUser , IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/SignIn";
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -51,6 +55,7 @@ namespace Mvc03.Demo.PL
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

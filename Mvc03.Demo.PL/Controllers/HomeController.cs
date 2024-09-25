@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mvc03.Demo.PL.Services;
 using Mvc03.Demo.PL.ViewModels;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace Mvc03.Demo.PL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

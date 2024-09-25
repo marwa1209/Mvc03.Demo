@@ -8,11 +8,14 @@ namespace Mvc03.Demo.PL.Controllers
     public class AccountController : Controller
     {
         public UserManager<ApplicationUser> UserManager { get; }
+        public SignInManager<ApplicationUser> SignInManager { get; }
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             UserManager = userManager;
+            SignInManager = signInManager;
         }
+        #region SignUp
         //SignUp
         public IActionResult SignUp()
         {
@@ -42,7 +45,7 @@ namespace Mvc03.Demo.PL.Controllers
                             var result = await UserManager.CreateAsync(user, model.Password);
                             if (result.Succeeded)
                             {
-                                return RedirectToAction("SignIn","Account");
+                                return RedirectToAction("SignIn", "Account");
                             }
                             else
                             {
@@ -61,14 +64,16 @@ namespace Mvc03.Demo.PL.Controllers
                     ModelState.AddModelError(String.Empty, "UserName Is Already Exists !!");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 ModelState.AddModelError(String.Empty, ex.Message);
 
             }
 
             return View(model);
-        }
+        } 
+        #endregion
+        #region SignIn
         //SignIn
         public IActionResult SignIn()
         {
@@ -81,19 +86,27 @@ namespace Mvc03.Demo.PL.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                       var user = await UserManager.FindByEmailAsync(model.Email);
-                        if (user != null)
+                    var user = await UserManager.FindByEmailAsync(model.Email);
+                    if (user != null)
+                    {
+                        var flag = await UserManager.CheckPasswordAsync(user, model.Password);
+                        if (flag)
                         {
-                            var flag = await UserManager.CheckPasswordAsync(user, model.Password);
-                            if (flag)
+                            var result = await SignInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                            if (result.Succeeded)
                             {
-                                return RedirectToAction("Index","Home");
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                             }
                         }
-                        ModelState.AddModelError(String.Empty, "Invalid Email !!");
-                        return View(model);
-
                     }
+                    ModelState.AddModelError(String.Empty, "Invalid Email !!");
+                    return View(model);
+
+                }
             }
             catch (Exception ex)
             {
@@ -102,6 +115,13 @@ namespace Mvc03.Demo.PL.Controllers
             }
 
             return View(model);
+        } 
+        #endregion
+
+        public new async Task<IActionResult> SignOut()
+        {
+           await SignInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignIn));
         }
 
 

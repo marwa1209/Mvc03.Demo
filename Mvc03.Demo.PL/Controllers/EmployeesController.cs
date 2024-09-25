@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Mvc.Demo.DAL.Models;
 using Mvc03.Demo.BLL.Interfaces;
@@ -8,6 +9,7 @@ using Mvc03.Demo.PL.ViewModels.Employees;
 
 namespace Mvc03.Demo.PL.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
