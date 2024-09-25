@@ -42,7 +42,7 @@ namespace Mvc03.Demo.PL.Controllers
                             var result = await UserManager.CreateAsync(user, model.Password);
                             if (result.Succeeded)
                             {
-                                return RedirectToAction("SignIn");
+                                return RedirectToAction("SignIn","Account");
                             }
                             else
                             {
@@ -74,6 +74,36 @@ namespace Mvc03.Demo.PL.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                       var user = await UserManager.FindByEmailAsync(model.Email);
+                        if (user != null)
+                        {
+                            var flag = await UserManager.CheckPasswordAsync(user, model.Password);
+                            if (flag)
+                            {
+                                return RedirectToAction("Index","Home");
+                            }
+                        }
+                        ModelState.AddModelError(String.Empty, "Invalid Email !!");
+                        return View(model);
+
+                    }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+
+            }
+
+            return View(model);
+        }
+
 
     }
 }
