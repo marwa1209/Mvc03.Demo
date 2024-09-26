@@ -24,4 +24,11 @@
     <Folder Include="wwwroot\Files\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Account\ResetPassword.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

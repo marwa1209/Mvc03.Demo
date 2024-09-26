@@ -150,7 +150,7 @@ namespace Mvc03.Demo.PL.Controllers
                     {
                         To = model.Email,
                         Subject = "Reset Password",
-                        Body = "URL"
+                        Body =url
                     };
                     //Send Email
                     EmailSettings.SendEmail(email);
@@ -164,6 +164,38 @@ namespace Mvc03.Demo.PL.Controllers
         #endregion
         public IActionResult CheckYourInbox() 
         {
+            return View();
+        }
+        public IActionResult ResetPassword(string email, string token)
+        {
+            TempData["email"] = email;
+            TempData["token"] = token;
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var email = TempData["email"] as string;
+                var token = TempData["token"] as string;
+
+                var user = await UserManager.FindByEmailAsync(email);
+                if (user != null) {
+                    var result = await UserManager.ResetPasswordAsync(user,token, model.Password);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction(nameof(SignIn));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid Reset Password attempt.");
+                    }
+                }
+            }
+            ModelState.AddModelError(String.Empty, "Invalid Operation , Please Try Again !!");
+
             return View();
         }
     }
