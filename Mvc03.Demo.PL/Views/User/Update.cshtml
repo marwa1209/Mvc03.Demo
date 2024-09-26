@@ -1,0 +1,19 @@
+﻿@model UserViewModel
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="my-4">
+    <h1>Update User @Model.FirstName Info </h1>
+    <form class="my-5" asp-action="Update" enctype="multipart/form-data">
+        <partial name="PartialViews/CreateUpdateUserPartialView" model="Model" />
+
+        <div class="d-flex gap-4 my-4">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <a asp-controller="User" asp-action="Index" class="btn btn-outline-dark">Back To List </a>
+        </div>
+
+
+    </form>
+</div>
