@@ -13,10 +13,12 @@ namespace Mvc03.Demo.PL.Controllers
     public class RoleController : Controller
     {
         public RoleManager<IdentityRole> _roleManager { get; }
+        public UserManager<ApplicationUser> _userManager { get; }
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager ,UserManager<ApplicationUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
         #region Index
         public async Task<IActionResult> Index(string searchString)
@@ -143,5 +145,35 @@ namespace Mvc03.Demo.PL.Controllers
             return View("Index", roles);
         }
         #endregion
+        #region AddOrRemoveUser
+        public async Task<IActionResult> AddOrRemoveUser(string? RoleId)
+        {
+          var role= await _roleManager.FindByIdAsync(RoleId);
+            if(role == null) return BadRequest();
+            var usersInRole=new List<UserRoleViewModel>();
+            var users=await _userManager.Users.ToListAsync();
+            foreach (var user in users)
+            {
+                var userInRole = new UserRoleViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+
+                };
+                if (await _userManager.IsInRoleAsync(user,role.Name)) 
+                { 
+                    userInRole.IsSelected = true;
+                }
+                else
+                {
+                    userInRole.IsSelected = false;
+                }
+                usersInRole.Add(userInRole);
+            }
+            return View(usersInRole);
+        } 
+        #endregion
+
+
     }
 }
