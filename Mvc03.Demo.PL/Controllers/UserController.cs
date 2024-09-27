@@ -10,7 +10,7 @@ using Mvc03.Demo.PL.ViewModels.User;
 
 namespace Mvc03.Demo.PL.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class UserController : Controller
     {
         public UserManager<ApplicationUser> UserManager { get; }
@@ -22,6 +22,7 @@ namespace Mvc03.Demo.PL.Controllers
             SignInManager = signInManager;
         }
         #region Index
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string searchString)
         {
             var users = Enumerable.Empty<UserViewModel>();

@@ -15,7 +15,7 @@ namespace Mvc03.Demo.PL.Controllers
         public RoleManager<IdentityRole> _roleManager { get; }
         public UserManager<ApplicationUser> _userManager { get; }
 
-        public RoleController(RoleManager<IdentityRole> roleManager ,UserManager<ApplicationUser> userManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -148,10 +148,11 @@ namespace Mvc03.Demo.PL.Controllers
         #region AddOrRemoveUser
         public async Task<IActionResult> AddOrRemoveUser(string? RoleId)
         {
-          var role= await _roleManager.FindByIdAsync(RoleId);
-            if(role == null) return BadRequest();
-            var usersInRole=new List<UserRoleViewModel>();
-            var users=await _userManager.Users.ToListAsync();
+            var role = await _roleManager.FindByIdAsync(RoleId);
+            if (role == null) return BadRequest();
+            ViewData["RoleId"] = RoleId;
+            var usersInRole = new List<UserRoleViewModel>();
+            var users = await _userManager.Users.ToListAsync();
             foreach (var user in users)
             {
                 var userInRole = new UserRoleViewModel()
@@ -160,8 +161,8 @@ namespace Mvc03.Demo.PL.Controllers
                     UserName = user.UserName,
 
                 };
-                if (await _userManager.IsInRoleAsync(user,role.Name)) 
-                { 
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
                     userInRole.IsSelected = true;
                 }
                 else
@@ -171,7 +172,36 @@ namespace Mvc03.Demo.PL.Controllers
                 usersInRole.Add(userInRole);
             }
             return View(usersInRole);
-        } 
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddOrRemoveUser(string? RoleId, List<UserRoleViewModel> users)
+        {
+            var role = await _roleManager.FindByIdAsync(RoleId);
+            if (role == null) return BadRequest();
+            if (ModelState.IsValid)
+            {
+                var userInRole = new UserRoleViewModel();
+                foreach (var user in users)
+                {
+                    var appUser=await _userManager.FindByIdAsync(user.UserId);
+                    if (appUser != null)
+                    {
+
+                        if (user.IsSelected && ! await _userManager.IsInRoleAsync(appUser,role.Name))
+                        {
+                            await _userManager.AddToRoleAsync(appUser, role.Name);
+                        }
+                        else if (!user.IsSelected && await _userManager.IsInRoleAsync(appUser, role.Name))
+                        {
+                            await _userManager.RemoveFromRoleAsync(appUser, role.Name);
+
+                        }
+                    }
+                }
+               return RedirectToAction(nameof(Update),new {id=role.Id});
+            }
+            return View(users);
+        }
         #endregion
 
 

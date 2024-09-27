@@ -39,6 +39,7 @@ namespace Mvc03.Demo.PL
             builder.Services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = "/Account/SignIn";
+               
             });
             var app = builder.Build();
 
